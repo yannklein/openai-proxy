@@ -9,10 +9,10 @@ app.use(express.json());
 
 app.get('/', async (req, res) => {
   try {
-    const apiCallsCounter = new ApiCallsCounter();
-    const amountCalls = await apiCallsCounter.displayCalls();
-    res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callLimit - amountCalls} calls remaining today!`);
-    
+    // const apiCallsCounter = new ApiCallsCounter();
+    // const amountCalls = await apiCallsCounter.displayCalls();
+    // res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callLimit - amountCalls} calls remaining today!`);
+    res.send("hi")
   } catch (error) {
     res.send("Some error occured: " + error)
   }

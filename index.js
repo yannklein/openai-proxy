@@ -1,20 +1,28 @@
+import'dotenv/config';
 import express from 'express';
 import OpenaiApiClient from './openai-api';
+import ApiCallsCounter from './api-calls-counter';
 
 const app = express();
 
 app.use(express.json());
 
+const apiCallsCounter = new ApiCallsCounter();
 
-app.get('/', (req, res) => {
-  res.send('Welcome to OpenAI API proxy server. X calls remaining today!');
+app.get('/', async (req, res) => {
+  try {
+    const amountCalls = await apiCallsCounter.displayCalls();
+    res.send(`Welcome to OpenAI API proxy server. ${10 - amountCalls} calls remaining today!`);
+    
+  } catch (error) {
+    res.send("Some error occured: " + error)
+  }
 });
 
 app.post('/', async (req, res) => {
-  console.log(req.body);
   const { messages, format } = req.body;
-  const OpenaiApi = new OpenaiApiClient();
-  const completion = await OpenaiApi.call(messages, format);
+  const openaiApi = new OpenaiApiClient();
+  const completion = await openaiApi.call(messages, format);
   res.send(completion);
 });
 

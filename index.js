@@ -1,17 +1,21 @@
 import express from 'express';
-import OpenaiApi from './openai-api';
+import OpenaiApiClient from './openai-api';
 
 const app = express();
+
+app.use(express.json());
+
 
 app.get('/', (req, res) => {
   res.send('Welcome to OpenAI API proxy server. X calls remaining today!');
 });
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
+  console.log(req.body);
   const { messages, format } = req.body;
-  const openaiApi = new OpenaiApi();
-  const completion = openaiApi(messages, format);
-  res.json(completion);
+  const OpenaiApi = new OpenaiApiClient();
+  const completion = await OpenaiApi.call(messages, format);
+  res.send(completion);
 });
 
 app.listen(3000, () => {

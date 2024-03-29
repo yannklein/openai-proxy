@@ -12,6 +12,6 @@ export default class {
       model: "gpt-3.5-turbo",
     });
 
-    return completion.choices[0];
+    return completion.choices[0].message.content;
   }
 }

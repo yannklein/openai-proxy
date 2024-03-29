@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 
-export default class  {
+export default class {
   constructor() {
     this.openai = new OpenAI();
   }

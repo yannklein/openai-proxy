@@ -1,6 +1,6 @@
+import express from 'express';
 import OpenaiApi from './openai-api';
 
-const express = require('express');
 const app = express();
 
 app.get('/', (req, res) => {

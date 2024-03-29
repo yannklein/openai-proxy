@@ -7,18 +7,19 @@ const app = express();
 
 app.use(express.json());
 
+const apiCallsCounter = new ApiCallsCounter();
+
 app.get('/', async (req, res) => {
   try {
-    const apiCallsCounter = new ApiCallsCounter();
     const amountCalls = await apiCallsCounter.displayCalls();
     res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callLimit - amountCalls} calls remaining today!`);
+    
   } catch (error) {
     res.send("Some error occured: " + error)
   }
 });
 
 app.post('/', async (req, res) => {
-  const apiCallsCounter = new ApiCallsCounter();
   if ( await apiCallsCounter.autorizeCall()) {
     const { messages, format } = req.body;
     const openaiApi = new OpenaiApiClient();

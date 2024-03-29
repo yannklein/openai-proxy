@@ -5,9 +5,10 @@ export default class  {
     this.openai = new OpenAI();
   }
 
-  async call(promptArray) {
+  async call(messages, format) {
     const completion = await this.openai.chat.completions.create({
-      messages: promptArray,
+      response_format: format,
+      messages: messages,
       model: "gpt-3.5-turbo",
     });
 

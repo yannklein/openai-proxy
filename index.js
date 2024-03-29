@@ -7,9 +7,8 @@ const app = express();
 
 app.use(express.json());
 
-const apiCallsCounter = new ApiCallsCounter();
-
 app.get('/', async (req, res) => {
+  const apiCallsCounter = new ApiCallsCounter();
   try {
     const amountCalls = await apiCallsCounter.displayCalls();
     res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callLimit - amountCalls} calls remaining today!`);
@@ -20,6 +19,7 @@ app.get('/', async (req, res) => {
 });
 
 app.post('/', async (req, res) => {
+  const apiCallsCounter = new ApiCallsCounter();
   if ( await apiCallsCounter.autorizeCall()) {
     const { messages, format } = req.body;
     const openaiApi = new OpenaiApiClient();
@@ -31,5 +31,5 @@ app.post('/', async (req, res) => {
 });
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log('Server listening on port 3000');
+  console.log(`Server listening on port ${process.env.PORT || 3000}`);
 });

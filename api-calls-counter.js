@@ -3,19 +3,20 @@ import { MongoClient } from "mongodb";
 export default class ApiCallsCounter {
   #callLimit = 20;
   
-  constructor() {
-    const client = new MongoClient(process.env.MONGODB_URI);
-    const database = client.db('openai-proxy');
-    this.stats = database.collection('stats');
-  }
-
   get callLimit() {
     return this.#callLimit;
   }
+  
+  async getStatFromDB() {
+    const client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    const database = client.db('openai-proxy');
+    return await database.collection('stats').findOne();
+  }
 
   async displayCalls() {
-    let stat = await this.stats.findOne();
     // reset the call available if new day
+    let stat = await this.getStatFromDB();
     if (this.isNotToday(stat.current_day)) {
       stat = await this.resetCalls();
     }
@@ -23,7 +24,7 @@ export default class ApiCallsCounter {
   }
 
   async autorizeCall() {
-    let stat = await this.stats.findOne();
+    let stat = await this.getStatFromDB();
     // reset the call available if new day
     if (this.isNotToday(stat.current_day)) {
       stat = await this.resetCalls();

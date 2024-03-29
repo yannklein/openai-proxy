@@ -1,7 +1,7 @@
 import'dotenv/config';
 import express from 'express';
-import OpenaiApiClient from './openai-api';
-import ApiCallsCounter from './api-calls-counter';
+import OpenaiApiClient from './openai-api.js';
+import ApiCallsCounter from './api-calls-counter.js';
 
 const app = express();
 

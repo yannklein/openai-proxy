@@ -12,7 +12,7 @@ const apiCallsCounter = new ApiCallsCounter();
 app.get('/', async (req, res) => {
   try {
     const amountCalls = await apiCallsCounter.displayCalls();
-    res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callLimit - amountCalls} calls remaining today!`);
+    res.send(`Welcome to OpenAI API proxy server. ${apiCallsCounter.callsLimit - amountCalls} calls remaining today!`);
     
   } catch (error) {
     res.send("Some error occured: " + error)

@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 export default class ApiCallsCounter {
-  #callLimit = 20;
+  #callsLimit = process.env.CALLS_LIMIT;
   
   constructor() {
     const client = new MongoClient(process.env.MONGODB_URI);
@@ -9,8 +9,8 @@ export default class ApiCallsCounter {
     this.stats = database.collection('stats');
   }
 
-  get callLimit() {
-    return this.#callLimit;
+  get callsLimit() {
+    return this.#callsLimit;
   }
 
   async displayCalls() {
@@ -29,7 +29,7 @@ export default class ApiCallsCounter {
       stat = await this.resetCalls();
     }
     // unautorize if no more call available
-    if (stat.calls >= this.#callLimit) {
+    if (stat.calls >= this.#callsLimit) {
       return false;
     }
     // remove one call as at least one is available

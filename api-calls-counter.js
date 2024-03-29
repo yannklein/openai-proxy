@@ -1,7 +1,7 @@
 import { MongoClient } from "mongodb";
 
 export default class ApiCallsCounter {
-  #callLimit = 10
+  #callLimit = 20;
   
   constructor() {
     const client = new MongoClient(process.env.MONGODB_URI);

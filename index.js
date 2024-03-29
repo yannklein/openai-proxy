@@ -26,7 +26,7 @@ app.post('/', async (req, res) => {
     const completion = await openaiApi.call(messages, format);
     res.send(completion);
   } else {
-    res.send('{"error": "No more call token available for today"}');
+    res.send('{"error": "No more call available for today"}');
   }
 });
 

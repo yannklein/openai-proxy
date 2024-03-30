@@ -2,7 +2,9 @@ import OpenAI from "openai";
 
 export default class {
   constructor() {
-    this.openai = new OpenAI();
+    this.openai = new OpenAI({
+      apiKey: process.env['OPENAI_API_KEY']
+    });
   }
 
   async call(messages, format) {
